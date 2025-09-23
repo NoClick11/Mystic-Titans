@@ -48,7 +48,6 @@ Java 17+
 ├── JUnit 5
 ├── Mockito
 
-
 ## 📂 Estrutura do Projeto
 
 Este projeto segue uma estrutura de diretórios padrão Maven, com as classes de produção localizadas em src/main e os testes em src/test. Abaixo, você encontra a organização detalhada dos pacotes e classes.
@@ -87,6 +86,7 @@ gestao-espaco-fisico/
 │
 └── 📄 pom.xml                             # Dependências Maven
 ````
+
 Principais Pontos:
 
 - src/main/java: Contém o código-fonte principal da aplicação.
@@ -100,6 +100,23 @@ Principais Pontos:
 - src/test/java: Contém os testes unitários e de integração para garantir a qualidade do código.
 
 - pom.xml: Arquivo de configuração do Maven, onde estão listadas as dependências do projeto.
+
+## 📚 Diagramas de Arquitetura
+
+Aqui estão os diagramas de classe e sequência que visualizam a estrutura e o fluxo do projeto.
+
+### Diagrama de Classe (Estrutura Estática)
+
+<div align="center">
+  <img src="images/Diagrama-Classe.png" alt="Ilustração de batalha do Mystic Titans" width="800"/>
+</div>
+
+### Diagrama de Sequência
+
+<div align="center">
+  <img src="images/Diagrama-Sequência.png" alt="Ilustração de batalha do Mystic Titans" width="800"/>
+</div>
+
 
 ## 🛠️ Como Executar os Testes
 
