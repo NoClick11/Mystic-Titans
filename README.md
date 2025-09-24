@@ -59,6 +59,7 @@ Mystic Titans foi criado para:
 |---|---|---|
 | 🐉 **Sistema de Criaturas** | Cada criatura possui atributos e tipo elemental. | ✅ |
 | 🔥💧🍃 **Vantagem Elemental** | Regras de dano baseadas em tipos elementais. | ✅ |
+| 💥 **Sistema de Habilidades** |	Habilidades com dano, custo de mana e efeitos| ✅ |
 | 🛡️ **Sistema de Batalha** | Lógica de batalha por turnos com iniciativa por velocidade. | ✅ |
 | 🧪 **Efeitos de Status** | Efeitos como "Queimado" e "Congelado" com duração. | ✅ |
 | 📦 **Sistema de Inventário** | Gerenciamento de itens usáveis durante a batalha. | ✅ |
