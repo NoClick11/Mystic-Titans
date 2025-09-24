@@ -32,6 +32,21 @@ public class Criatura {
         this.podeAgir = true;
     }
 
+    public Criatura(String nome, int hp, int atk, int def,int velocidade, int mana, int manaMaxima ,TipoElemental tipo) {
+        this.nome = nome;
+        this.hp = hp;
+        this.atk = atk;
+        this.def = def;
+        this.velocidade = velocidade;
+        this.mana = mana;
+        this.manaMaxima = manaMaxima;
+        this.tipo = tipo;
+        this.efeitos = new ArrayList<>();
+        this.inventario = new Inventario();
+        this.podeAgir = true;
+        this.habilidades = new ArrayList<>();
+    }
+
     public Criatura(String nome, int hp, int atk, int def, int velocidade, int mana, int manaMaxima, TipoElemental tipo, List<Habilidade> habilidades) {
         this.nome = nome;
         this.hp = hp;
@@ -97,6 +112,10 @@ public class Criatura {
 
     public int getVelocidade() {
         return velocidade;
+    }
+
+    public void setVelocidade(int velocidade) {
+        this.velocidade = velocidade;
     }
 
     public boolean podeAgir() {

@@ -15,9 +15,9 @@
 
 ## 🌟 Apresentação do Jogo
 
-Nome do Jogo: Mystic Titans
+**Nome do Jogo:** Mystic Titans
 
-Slogan: A Batalha dos Elementos Te Espera.
+**Slogan:** A Batalha dos Elementos Te Espera.
 
 ## Logotipo
 
@@ -32,6 +32,25 @@ Slogan: A Batalha dos Elementos Te Espera.
 - Aplicação de efeitos de status com duração
 - Testes unitários com **JUnit** e **Mockito**
 
+---
+
+## 📖 Contexto do Jogo
+
+O universo de Mystic Titans é um reino antigo, onde o equilíbrio entre os seis elementos primordiais foi quebrado. Como um **Guardião Elemental**, sua missão é capturar e treinar essas criaturas, forjando laços de amizade e estratégia para restaurar a ordem.
+
+As batalhas de criaturas místicas são fascinantes por combinarem estratégia e imaginação. O jogador não apenas ataca, mas deve pensar nas vantagens elementais, nos efeitos de status e na iniciativa, o que adiciona uma profundidade tática que prende a atenção.
+
+---
+
+## 🎯 Público-Alvo
+
+Mystic Titans foi criado para:
+
+* **Fãs de RPG e Estratégia:** Pessoas que gostam de jogos de batalha por turnos e buscam uma camada extra de profundidade.
+* **Jogadores Táticos:** Aqueles que se divertem planejando, pensando à frente e descobrindo as melhores combinações de habilidades e tipos.
+* **Apreciadores de Universos de Fantasia:** Jogadores que se interessam por mundos ricos em histórias e criaturas místicas.
+
+---
 ## 🚀 Funcionalidades Principais
 
 <div align="center">
@@ -67,15 +86,19 @@ gestao-espaco-fisico/
 │   ├── 📁 main/
 │   │   ├── 📁 java/com/parceirodeprogramacao/
 │   │   │   ├── 📁 model/                  # Classes de dados
+│   │   │   │ ├── 📄 Botas.java
+│   │   │   │   ├── 📄 CongelarEfeito.java
 │   │   │   │   ├── 📄 Criatura.java
+│   │   │   │   ├── 📄 EfeitoStatus.java
+│   │   │   │   ├── 📄 EnvenenarEfeito.java
 │   │   │   │   ├── 📄 Habilidade.java
 │   │   │   │   ├── 📄 Inventario.java
 │   │   │   │   ├── 📄 Item.java
+│   │   │   │   ├── 📄 PocaoDeAtaque.java
+│   │   │   │   ├── 📄 PocaoDeCura.java
+│   │   │   │   ├── 📄 QueimarEfeito.java
 │   │   │   │   ├── 📄 TipoElemental.java
-│   │   │   │   ├── 📄 CongelarEfeito.java
-│   │   │   │   ├── 📄 EnvenenarEfeito.java
-│   │   │   │   └── 📄 QueimarEfeito.java
-│   │   │   │
+│   │   │   │   └──
 │   │   │   ├── 📁 service/                # Lógica de negócio
 │   │   │   │   ├── 📄 BatalhaService.java
 │   │   │   │   ├── 📄 CalculadoraElemental.java
@@ -125,21 +148,37 @@ Aqui estão os diagramas de classe e sequência que visualizam a estrutura e o f
   <img src="images/Diagrama-Sequência.png" alt="Ilustração de batalha do Mystic Titans" width="800"/>
 </div>
 
+## 🎮 Exemplo de Gameplay
 
-## 🛠️ Como Executar os Testes
+Uma batalha em Mystic Titans é uma dança estratégica por turnos.
 
-Para executar os testes unitários do projeto, basta ter o **Maven** e o **JUnit 5** configurados. Você pode rodar todos os testes a partir da linha de comando com o seguinte comando:
+1.  **Início do Combate:** Duas criaturas se encontram. A velocidade de cada uma determina quem ataca primeiro (iniciativa).
+2.  **Turno de Ataque:** O atacante usa uma habilidade ou um item do seu inventário.
+3.  **Cálculo de Dano:** O jogo verifica a vantagem elemental. Se um Dragão de Fogo ataca uma criatura de Terra, o dano é dobrado.
+4.  **Aplicação de Efeito:** Se a habilidade tem um efeito, como "Congelar", ele é aplicado e a criatura defensora pode perder o próximo turno.
+5.  **Fim do Turno:** Os efeitos de status são aplicados (se houver), e o turno passa para o próximo jogador.
+6.  O ciclo continua até que o HP de uma das criaturas chegue a zero, declarando o vencedor.
 
-```bash
-mvn test
-Ou, se estiver usando um IDE como o IntelliJ IDEA, clique com o botão direito na pasta src/test/java e selecione Run 'All Tests'.
+###📝 Log de Teste (Exemplo do Console)
 
-🤝 Como Contribuir
-Contribuições são muito bem-vindas! Se você tiver uma ideia para melhorar o jogo, sinta-se à vontade para abrir uma Issue ou um Pull Request.
+```
+--- Batalha entre Dragão e Golem ---
+Dragão de Fogo é mais rápido e ataca primeiro!
 
-📄 Licença
+--- Turno 1 ---
+É super eficaz!
+Dragão de Fogo ataca Golem de Terra causando 20 de dano!
+Golem de Terra HP: 80 | Dragão de Fogo HP: 100
+
+--- Turno 2 ---
+Não é muito eficaz...
+Golem de Terra ataca Dragão de Fogo causando 5 de dano!
+Golem de Terra HP: 80 | Dragão de Fogo HP: 95
+
+--- Batalha finalizada! ---
+Dragão de Fogo vence a batalha!
+```
 <div align="center">
-
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
-
+Seja um Guardião Elemental e junte-se à batalha! ⚔️
 </div>
+```

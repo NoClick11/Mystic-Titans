@@ -1,17 +1,10 @@
 package test;
 
-import habilidades.CongelarEfeito;
-import habilidades.EnvenenarEfeito;
-import habilidades.QueimarEfeito;
-import model.Criatura;
-import model.EfeitoStatus;
-import model.TipoElemental;
-import org.junit.jupiter.api.BeforeEach;
+import model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import service.GerenciadorEfeitosService;
 

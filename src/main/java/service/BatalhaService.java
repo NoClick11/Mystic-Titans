@@ -35,8 +35,7 @@ public class BatalhaService {
             gerenciadorEfeitos.aplicarEfeitosDoTurno(atacante);
 
             if (atacante.podeAgir()) {
-                // --- Nova Lógica: Usar a primeira habilidade da criatura ---
-                if (!atacante.getHabilidades().isEmpty()) {
+                if (atacante.getHabilidades() != null && !atacante.getHabilidades().isEmpty()) {
                     Habilidade habilidade = atacante.getHabilidades().get(0);
                     if (atacante.getMana() >= habilidade.getCustoMana()) {
                         atacante.setMana(atacante.getMana() - habilidade.getCustoMana());
@@ -87,10 +86,9 @@ public class BatalhaService {
      * Aplica o efeito de um item em uma criatura.
      * @param criatura A criatura que usará o item.
      * @param item O item a ser usado.
-     * @param hpMaximo O HP máximo da criatura.
      */
 
-    public void usarItem(Criatura criatura, Item item, int hpMaximo) {
-        criatura.getInventario().usarItem(item, criatura, hpMaximo);
+    public void usarItem(Criatura criatura, Item item) {
+        criatura.getInventario().usarItem(item, criatura);
     }
 }

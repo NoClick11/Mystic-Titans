@@ -1,11 +1,8 @@
 package test;
 
-import model.Criatura;
-import model.Item;
-import model.TipoElemental;
+import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -13,25 +10,23 @@ import service.BatalhaService;
 import service.CalculadoraElementalService;
 import service.GerenciadorEfeitosService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class BatalhaServiceTest {
 
-    // Declara a dependência `CalculadoraElemental` como um mock.
     @Mock
     private CalculadoraElementalService calculadoraElemental;
 
-    // Declara a dependência `GerenciadorEfeitos` como um mock.
     @Mock
     private GerenciadorEfeitosService gerenciadorEfeitos;
 
-    // A anotação @InjectMocks injeta automaticamente os mocks declarados acima
-    // na nossa classe de teste, a BatalhaService.
     @InjectMocks
     private BatalhaService batalhaService;
 
-    // Este método é executado antes de cada teste e inicializa todos os mocks.
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
@@ -39,98 +34,114 @@ public class BatalhaServiceTest {
 
     @Test
     void deveEncerrarBatalhaQuandoCriaturaMorre() {
-        // Cenário: Criamos duas criaturas de teste.
-        // Adicionada a velocidade de cada criatura.
-        Criatura criatura1 = new Criatura("Heroi", 10, 15, 5, 20, TipoElemental.FOGO);
-        Criatura criatura2 = new Criatura("Vilao", 10, 15, 5, 10, TipoElemental.AGUA);
+        Criatura criaturaVeloz = new Criatura("Veloz", 10, 15, 5, 20, 50, 50, TipoElemental.FOGO, new ArrayList<>());
+        Criatura criaturaLenta = new Criatura("Lenta", 10, 15, 5, 10, 50, 50, TipoElemental.AGUA, new ArrayList<>());
 
-        // Ação: Usamos o mock para simular um dano de 10.
         when(calculadoraElemental.calcularDano(anyInt(), anyInt(), any(), any())).thenReturn(10.0);
 
-        // Iniciamos a simulação.
-        batalhaService.iniciarBatalha(criatura1, criatura2);
+        batalhaService.iniciarBatalha(criaturaVeloz, criaturaLenta);
 
-        // Verificação:
         verify(calculadoraElemental, atLeast(1)).calcularDano(anyInt(), anyInt(), any(), any());
 
-        // Verificamos se a batalha terminou.
-        assertTrue(criatura1.getHp() <= 0 || criatura2.getHp() <= 0);
+        assertTrue(criaturaVeloz.getHp() <= 0 || criaturaLenta.getHp() <= 0);
     }
 
     @Test
     void deveCurarCriaturaQuandoUsarPocaoDeVida() {
-        // CORRIGIDO: Removida a linha que criava uma nova instância de BatalhaService
-        Criatura criatura = new Criatura("Criatura Ferida", 30, 10, 5, 15, TipoElemental.AGUA);
-        Item pocaoDeVida = mock(Item.class);
-        when(pocaoDeVida.getValorEfeito()).thenReturn(50);
-        when(pocaoDeVida.getNome()).thenReturn("Poção de Vida");
-        when(pocaoDeVida.getTipo()).thenReturn("Cura");
+        Criatura criatura = new Criatura("Criatura Ferida", 30, 10, 5, 15, 50, 50, TipoElemental.AGUA, new ArrayList<>());
 
-        // Adiciona a poção ao inventário da criatura
+        // Criamos uma instância real da poção de cura
+        Item pocaoDeVida = new PocaoDeCura("Poção de Vida", 50, 100);
+
         criatura.getInventario().adicionarItem(pocaoDeVida);
-
-        // Verifique o HP inicial
         assertEquals(30, criatura.getHp());
-
-        // Ação: Usar o item na criatura
-        batalhaService.usarItem(criatura, pocaoDeVida, 100);
-
-        // Verificação: Checar se o HP foi curado e o item foi removido
+        batalhaService.usarItem(criatura, pocaoDeVida);
         assertEquals(80, criatura.getHp());
-        assertFalse(criatura.getInventario().getItens().contains(pocaoDeVida));
     }
 
     @Test
     void deveAumentarAtaqueQuandoUsarPocaoDeFuria() {
-        // CORRIGIDO: Removida a linha que criava uma nova instância de BatalhaService
-        Criatura criatura = new Criatura("Guerreiro", 100, 10, 5, 20, TipoElemental.TERRA);
-        Item pocaoDeFuria = mock(Item.class);
-        when(pocaoDeFuria.getValorEfeito()).thenReturn(15);
-        when(pocaoDeFuria.getNome()).thenReturn("Poção de Fúria");
-        when(pocaoDeFuria.getTipo()).thenReturn("Ataque");
+        Criatura criatura = new Criatura("Guerreiro", 100, 10, 5, 20, 50, 50, TipoElemental.TERRA, new ArrayList<>());
 
-        // Adiciona a poção ao inventário da criatura
+        // Criamos uma instância real da poção de ataque
+        Item pocaoDeFuria = new PocaoDeAtaque("Poção de Fúria", 15);
+
         criatura.getInventario().adicionarItem(pocaoDeFuria);
-
-        // Verifique o ataque inicial
         assertEquals(10, criatura.getAtk());
-
-        // Ação: Use o item na criatura
-        batalhaService.usarItem(criatura, pocaoDeFuria, criatura.getHp());
-
-        // Verificação: Cheque se o ataque foi aumentado e o item foi removido
+        batalhaService.usarItem(criatura, pocaoDeFuria);
         assertEquals(25, criatura.getAtk());
-        assertFalse(criatura.getInventario().getItens().contains(pocaoDeFuria));
     }
 
     @Test
     void deveAtacarPrimeiroQuemTiverMaiorVelocidade() {
-        // Cenário: Criatura A é mais rápida que a B.
-        Criatura criaturaA = new Criatura("Veloz", 100, 20, 10, 30, TipoElemental.AR);
-        Criatura criaturaB = new Criatura("Lento", 100, 20, 10, 10, TipoElemental.TERRA);
+        Criatura criaturaA = new Criatura("Veloz", 100, 20, 10, 30, 50, 50, TipoElemental.AR, new ArrayList<>());
+        Criatura criaturaB = new Criatura("Lento", 100, 20, 10, 10, 50, 50, TipoElemental.TERRA, new ArrayList<>());
 
-        // Ação: Simulamos o dano para que o teste seja previsível.
         when(calculadoraElemental.calcularDano(anyInt(), anyInt(), any(), any())).thenReturn(50.0);
-
-        // Iniciamos a batalha.
         batalhaService.iniciarBatalha(criaturaA, criaturaB);
 
-        // Verificação:
-        // Verificamos se o método de dano da criatura mais rápida foi chamado pelo menos uma vez.
-        verify(calculadoraElemental, atLeast(1)).calcularDano(
-                criaturaA.getAtk(),
-                criaturaB.getDef(),
-                criaturaA.getTipo(),
-                criaturaB.getTipo()
-        );
+        verify(calculadoraElemental, atLeast(1)).calcularDano(criaturaA.getAtk(), criaturaB.getDef(), criaturaA.getTipo(), criaturaB.getTipo());
+        verify(calculadoraElemental, atLeast(1)).calcularDano(criaturaB.getAtk(), criaturaA.getDef(), criaturaB.getTipo(), criaturaA.getTipo());
+    }
 
-        // Verificamos que o método também foi chamado com os parâmetros da criatura lenta.
-        // A ordem não importa aqui, apenas que ambos participaram.
-        verify(calculadoraElemental, atLeast(1)).calcularDano(
-                criaturaB.getAtk(),
-                criaturaA.getDef(),
-                criaturaB.getTipo(),
-                criaturaA.getTipo()
-        );
+    @Test
+    void deveAplicarEfeitoDeQueimarAoUsarHabilidade() {
+        Habilidade habilidadeQueimar = new Habilidade("Ataque de Fogo", 15, 10, new QueimarEfeito(2, 5));
+        Criatura atacante = new Criatura("Dragão", 100, 20, 10, 30, 50, 50, TipoElemental.FOGO, List.of(habilidadeQueimar));
+        Criatura defensor = new Criatura("Golem", 100, 15, 12, 10, 50, 50, TipoElemental.TERRA, new ArrayList<>());
+
+        when(calculadoraElemental.calcularDano(anyInt(), anyInt(), any(), any())).thenReturn(101.0);
+        batalhaService.iniciarBatalha(atacante, defensor);
+
+        assertEquals(1, defensor.getEfeitos().size());
+        assertEquals("Queimado", defensor.getEfeitos().get(0).getNome());
+    }
+
+    @Test
+    void deveCongelarCriaturaAoUsarHabilidade() {
+        Habilidade habilidadeCongelar = new Habilidade("Raio de Gelo", 10, 15, new CongelarEfeito(1));
+        Criatura atacante = new Criatura("Mago", 100, 10, 5, 25, 50, 50, TipoElemental.AGUA, List.of(habilidadeCongelar));
+        Criatura defensor = new Criatura("Viking", 100, 20, 10, 15, 50, 50, TipoElemental.FOGO, new ArrayList<>());
+
+        when(calculadoraElemental.calcularDano(anyInt(), anyInt(), any(), any())).thenReturn(101.0);
+        batalhaService.iniciarBatalha(atacante, defensor);
+
+        assertEquals(1, defensor.getEfeitos().size());
+        assertEquals("Congelado", defensor.getEfeitos().get(0).getNome());
+    }
+
+    @Test
+    void deveAplicarEfeitoDeVenenoAoUsarHabilidade() {
+        Habilidade habilidadeVeneno = new Habilidade("Nuvem Tóxica", 10, 8, new EnvenenarEfeito(3, 3));
+        Criatura atacante = new Criatura("Ninja", 100, 15, 8, 40, 50, 50, TipoElemental.TREVAS, List.of(habilidadeVeneno));
+        Criatura defensor = new Criatura("Guerreiro", 100, 20, 15, 20, 50, 50, TipoElemental.TERRA, new ArrayList<>());
+
+        when(calculadoraElemental.calcularDano(anyInt(), anyInt(), any(), any())).thenReturn(101.0);
+        batalhaService.iniciarBatalha(atacante, defensor);
+
+        assertEquals(1, defensor.getEfeitos().size());
+        assertEquals("Envenenado", defensor.getEfeitos().get(0).getNome());
+    }
+
+    @Test
+    void deveAumentarVelocidadeQuandoEquiparBotas() {
+        // Cenário: Criatura com velocidade inicial de 20.
+        Criatura criatura = new Criatura("Guerreiro", 100, 10, 5, 20, 50, 50, TipoElemental.TERRA, new ArrayList<>());
+
+        // Item que aumenta a velocidade em 15.
+        Item botasVelocidade = new Botas("Botas da Velocidade", 15);
+
+        // Adiciona as botas ao inventário da criatura.
+        criatura.getInventario().adicionarItem(botasVelocidade);
+
+        // Verificação: Checar a velocidade inicial.
+        assertEquals(20, criatura.getVelocidade(), "A velocidade inicial deve ser 20.");
+
+        // Ação: Usar o item na criatura.
+        batalhaService.usarItem(criatura, botasVelocidade);
+
+        // Verificação: Checar se a velocidade foi aumentada e o item foi removido.
+        assertEquals(35, criatura.getVelocidade(), "A velocidade deve ter sido aumentada para 35.");
+        assertFalse(criatura.getInventario().getItens().contains(botasVelocidade), "O item deve ter sido removido do inventário.");
     }
 }

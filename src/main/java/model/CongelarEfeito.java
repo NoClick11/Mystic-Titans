@@ -1,4 +1,4 @@
-package habilidades;
+package model;
 
 import model.Criatura;
 import model.EfeitoStatus;
