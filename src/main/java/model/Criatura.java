@@ -9,10 +9,16 @@ public class Criatura {
     private int atk;
     private int def;
     private int velocidade;
+    private int mana;
+    private int manaMaxima;
     private TipoElemental tipo;
     private List<EfeitoStatus> efeitos;
     private Inventario inventario;
     private boolean podeAgir;
+    private List<Habilidade> habilidades;
+
+    public Criatura () {
+    }
 
     public Criatura(String nome, int hp, int atk, int def,int velocidade ,TipoElemental tipo) {
         this.nome = nome;
@@ -24,6 +30,21 @@ public class Criatura {
         this.efeitos = new ArrayList<>();
         this.inventario = new Inventario();
         this.podeAgir = true;
+    }
+
+    public Criatura(String nome, int hp, int atk, int def, int velocidade, int mana, int manaMaxima, TipoElemental tipo, List<Habilidade> habilidades) {
+        this.nome = nome;
+        this.hp = hp;
+        this.atk = atk;
+        this.def = def;
+        this.velocidade = velocidade;
+        this.mana = mana;
+        this.manaMaxima = manaMaxima;
+        this.tipo = tipo;
+        this.efeitos = new ArrayList<>();
+        this.inventario = new Inventario();
+        this.podeAgir = true;
+        this.habilidades = habilidades;
     }
 
     public String getNome() {
@@ -40,6 +61,18 @@ public class Criatura {
 
     public int getDef() {
         return def;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+
+    public int getManaMaxima() {
+        return manaMaxima;
     }
 
     public TipoElemental getTipo() {
@@ -76,5 +109,13 @@ public class Criatura {
 
     public Inventario getInventario() {
         return inventario;
+    }
+
+    public List<Habilidade> getHabilidades() {
+        return habilidades;
+    }
+
+    public void adicionarHabilidade(Habilidade habilidade) {
+        this.habilidades.add(habilidade);
     }
 }
