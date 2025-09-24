@@ -13,9 +13,17 @@
 
 </div>
 
-## 🌟 Visão Geral
+## 🌟 Apresentação do Jogo
 
-`Mystic Titans` é um simulador de batalha por turnos, onde criaturas místicas se enfrentam com base em seus atributos, tipos elementais e habilidades especiais. O projeto foi desenvolvido com foco em práticas de programação robustas, incluindo a arquitetura modular em camadas, a implementação de testes unitários e a simulação de dependências usando Mockito.
+Nome do Jogo: Mystic Titans
+
+Slogan: A Batalha dos Elementos Te Espera.
+
+## Logotipo
+
+<div align="center" style="border-radius: 10px;">
+  <img src="images/Logotipo.png" alt="Ilustração de batalha do Mystic Titans" width="100" style="border-radius: 10px;"/>
+</div>
 
 **Principais Características:**
 - Sistema de batalha completo em **Java**
